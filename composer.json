@@ -5,9 +5,9 @@
     "license": "MIT",
     "keywords": [
         "php",
-        "authentication",
-        "scorch",
-        "emberfuse"
+        "eloquent",
+        "filter",
+        "comet"
     ],
     "authors": [
         {
@@ -28,9 +28,16 @@
             "Pasanks\\Comet\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Pasanks\\Comet\\Tests": "tests/"
+        }
+    },
     "require": {
         "php": "^7.4|^8.0",
-        "ext-json": "*"
+        "ext-json": "*",
+        "illuminate/http": "^8.61",
+        "illuminate/support": "^8.61"
     },
     "require-dev": {
         "mockery/mockery": "^1.4.2",
