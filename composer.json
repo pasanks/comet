@@ -1,0 +1,60 @@
+{
+    "name": "pasanks/comet",
+    "description": "Laravel Eloquent model query filter helper.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "php",
+        "authentication",
+        "scorch",
+        "emberfuse"
+    ],
+    "authors": [
+        {
+            "name": "Pasan Kavinga",
+            "email": "pasankavinga@gmail.com"
+        },
+        {
+            "name": "Thavarshan Thayananthajothy",
+            "email": "tjthavarshan@gmail.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/emberfuse/scorch/issues",
+        "source": "https://github.com/emberfuse/scorch"
+    },
+    "autoload": {
+        "psr-4": {
+            "Pasanks\\Comet\\": "src/"
+        }
+    },
+    "require": {
+        "php": "^7.4|^8.0",
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "mockery/mockery": "^1.4.2",
+        "orchestra/testbench": "^6.7",
+        "phpunit/phpunit": "^9.5",
+        "symfony/var-dumper": "^5.2.1"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "1.x-dev"
+        },
+        "laravel": {
+            "providers": [
+                "Pasanks\\Comet\\CometServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true,
+        "preferred-install": "dist"
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit --colors=always"
+    }
+}
