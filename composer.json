@@ -30,7 +30,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Pasanks\\Comet\\Tests": "tests/"
+            "Pasanks\\Comet\\Tests\\": "tests/"
         }
     },
     "require": {
