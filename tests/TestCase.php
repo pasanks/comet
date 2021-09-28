@@ -25,6 +25,8 @@ abstract class TestCase extends BaseTestCase
 
     protected function getEnvironmentSetUp($app)
     {
+        $app['migrator']->path(__DIR__ . '/../database/migrations');
+
         $app['config']->set('database.default', 'testbench');
 
         $app['config']->set('database.connections.testbench', [
@@ -32,6 +34,18 @@ abstract class TestCase extends BaseTestCase
             'database' => ':memory:',
             'prefix' => '',
         ]);
+    }
+
+    /**
+     * Load migrations and create database.
+     *
+     * @return void
+     */
+    protected function migrate(): void
+    {
+        $this->loadLaravelMigrations(['--database' => 'testbench']);
+
+        $this->artisan('migrate:fresh', ['--database' => 'testbench'])->run();
     }
 
     /**
