@@ -53,7 +53,7 @@ abstract class Filter
         $this->builder = $builder;
 
         foreach ($this->getFilters() as $filter => $value) {
-            $filter = $this->getFilterFunctionName($filter);
+            $filter = $this->normalizeFilterMethod($filter);
 
             if (method_exists($this, $filter)) {
                 $this->$filter($value);
@@ -74,11 +74,13 @@ abstract class Filter
     }
 
     /**
-     * Return function name for the relevent parameter
+     * Return function name for the relevent parameter.
      *
      * @return string
+     *
+     * @param mixed $filter
      */
-    public function getFilterFunctionName($filter): string
+    protected function normalizeFilterMethod($filter): string
     {
         return Str::camel($filter);
     }

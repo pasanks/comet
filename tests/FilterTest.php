@@ -2,22 +2,81 @@
 
 namespace Pasanks\Comet\Tests;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Mockery as m;
+use Pasanks\Comet\Tests\Fixtures\MockFilter;
 
 class FilterTest extends TestCase
 {
-    public function setUp(): void
+    public function tearDown(): void
     {
-       $this->mockFilter = new MockFilter(Request::create('/?parameter_one=1', 'GET'));
+        m::close();
     }
 
-    public function testRetriveFilterParametersFromRequest()
+    public function testRetrieveFilterParametersFromRequest()
     {
-        $this->assertEquals(['parameter_one' => 1], $this->mockFilter->getFilters());
+        $this->mockFilter = new MockFilter(
+            Request::create('/?foo=bar', 'GET')
+        );
+
+        $this->assertEquals(['foo' => 'bar'], $this->mockFilter->getFilters());
     }
 
-    public function testFilterFunctionExsistance()
+    public function testApplyRequestQueryAsFilterMethods()
     {
-        $this->assertEquals('parameterOne', $this->mockFilter->getFilterFunctionName('parameter_one'));
+        $query = m::mock(Builder::class);
+        $query->shouldReceive('where')
+            ->once()
+            ->with('foo', 'bar')
+            ->andReturn($query);
+
+        $this->mockFilter = new MockFilter(
+            Request::create('/?foo=bar', 'GET')
+        );
+
+        $this->assertInstanceOf(
+            Builder::class,
+            $this->mockFilter->apply($query)
+        );
+    }
+
+    public function testApplyRequestQueryAsMultipleFilterMethods()
+    {
+        $query = m::mock(Builder::class);
+        $query->shouldReceive('where')
+            ->once()
+            ->with('foo', 'bar')
+            ->andReturn($query);
+        $query->shouldReceive('where')
+            ->once()
+            ->with('fuz', 'buz')
+            ->andReturn($query);
+
+        $this->mockFilter = new MockFilter(
+            Request::create('/?foo=bar&fuz=buz', 'GET')
+        );
+
+        $this->assertInstanceOf(
+            Builder::class,
+            $this->mockFilter->apply($query)
+        );
+    }
+
+    public function testQueryIsNotAppliedIfFilterMethodDoesNotExist()
+    {
+        $query = m::mock(Builder::class);
+        $query->shouldReceive('where')
+            ->times(0)
+            ->andReturn();
+
+        $this->mockFilter = new MockFilter(
+            Request::create('/?bam=1', 'GET')
+        );
+
+        $this->assertInstanceOf(
+            Builder::class,
+            $this->mockFilter->apply($query)
+        );
     }
 }
