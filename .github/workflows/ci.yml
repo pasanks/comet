@@ -5,13 +5,13 @@ on:
     branches:
       - main
       - development
-      - features/**
+      - feature/**
       - refactor/**
   pull_request:
     branches:
       - main
       - development
-      - features/**
+      - feature/**
       - refactor/**
 
 jobs:
